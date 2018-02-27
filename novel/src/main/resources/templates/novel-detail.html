@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>小说详情</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet"
+	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script
+	src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script
+	src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+<style type="text/css">
+p {
+	color: #303030;
+	font-size: 16px;
+	line-height: 2em;
+	text-indent: 2em;
+	word-wrap: break-word;
+}
+
+.info_con {
+	color: #828181;
+	line-height: 18px;
+	padding: 10px 3px;
+	height: 62px;
+	word-break: break-all;
+}
+
+.cl15 {
+	height: 15px;
+}
+
+.chapter {
+	width: 240px;
+	padding: 6px 0;
+	padding-left: 30px;
+	line-height: 22px;
+}
+
+.booksub {
+    height: 20px;
+    background: url(http://static.zongheng.com/v2013/images/sub_bg.png);
+    line-height: 21px;
+    padding-left: 10px;
+    color: #303030;
+}
+
+</style>
+	
+</head>
+<body>
+	<nav class="navbar navbar-inverse" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/novel/novel/novelList">Cat阅读</a>
+			</div>
+		</div>
+	</nav>
+
+	<div class="container">
+
+		<div class="page-header text-center">
+
+			<div>
+				<h1 th:text="${novelInfo.name}">小说名</h1>
+			</div>
+
+			<div class="small booksub">
+				<span>作者</span>:<span th:text="${novelInfo.author}">佚名</span>
+				&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span>类型</span>:<span
+					th:text="${novelInfo.type}">类型</span> &nbsp;&nbsp;&nbsp;&nbsp; <span>关键词</span>:<span
+					th:text="${novelInfo.keywords}">关键词</span>
+			</div>
+
+		</div>
+
+		<div class="panel panel-info">
+			<div class="panel-heading">
+				<h3 class="panel-title">章节列表</h3>
+			</div>
+			<div class="panel-body">
+       			<p class="info_con" th:text="${novelInfo.description}"></p>
+    		</div>
+			<div class="row">
+				<div th:each="novelChapter : ${novelChapterList}">
+					<div th:switch="${novelChapter.state}"
+						class="col-xs-6 col-sm-3 chapter">
+						<a th:case="0" class="btn btn-info btn-sm"
+							th:href="'/novel/novel/chapterContent/?novelChapterId='+${novelChapter.id}">
+							<span th:text="${novelChapter.title}"></span>&nbsp;&nbsp;
+						</a> 
+						<a th:case="1" class="btn btn-warning btn-sm disabled" 
+							th:href="'/novel/novel/chapterContent/?novelChapterId='+${novelChapter.id}">
+							<span th:text="${novelChapter.title}"></span>
+							<!-- &nbsp;&nbsp;<span class="label label-warning">不可读</span> -->
+						</a>					
+					</div>
+					<div class="clearfix visible-xs-block"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

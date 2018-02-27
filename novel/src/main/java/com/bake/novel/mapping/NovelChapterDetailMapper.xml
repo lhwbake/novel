@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bake.novel.mapper.NovelChapterDetailMapper" >
+  <resultMap id="BaseResultMap" type="com.bake.novel.entity.NovelChapterDetail" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="wordcount" property="wordcount" jdbcType="INTEGER" />
+    <result column="chapterid" property="chapterid" jdbcType="INTEGER" />
+    <result column="chaptertime" property="chaptertime" jdbcType="BIGINT" />
+    <result column="createtime" property="createtime" jdbcType="BIGINT" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, url, title, wordcount, chapterid, chaptertime, createtime, content, updatetime
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from novel_chapter_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from novel_chapter_detail
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bake.novel.entity.NovelChapterDetail" >
+    insert into novel_chapter_detail (id, url, title, 
+      wordcount, chapterid, chaptertime, 
+      createtime, content, updatetime
+      )
+    values (#{id,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{title,jdbcType=VARCHAR}, 
+      #{wordcount,jdbcType=INTEGER}, #{chapterid,jdbcType=INTEGER}, #{chaptertime,jdbcType=BIGINT}, 
+      #{createtime,jdbcType=BIGINT}, #{content,jdbcType=VARCHAR}, #{updatetime,jdbcType=BIGINT}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bake.novel.entity.NovelChapterDetail" >
+    insert into novel_chapter_detail
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="wordcount != null" >
+        wordcount,
+      </if>
+      <if test="chapterid != null" >
+        chapterid,
+      </if>
+      <if test="chaptertime != null" >
+        chaptertime,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="wordcount != null" >
+        #{wordcount,jdbcType=INTEGER},
+      </if>
+      <if test="chapterid != null" >
+        #{chapterid,jdbcType=INTEGER},
+      </if>
+      <if test="chaptertime != null" >
+        #{chaptertime,jdbcType=BIGINT},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bake.novel.entity.NovelChapterDetail" >
+    update novel_chapter_detail
+    <set >
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="wordcount != null" >
+        wordcount = #{wordcount,jdbcType=INTEGER},
+      </if>
+      <if test="chapterid != null" >
+        chapterid = #{chapterid,jdbcType=INTEGER},
+      </if>
+      <if test="chaptertime != null" >
+        chaptertime = #{chaptertime,jdbcType=BIGINT},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bake.novel.entity.NovelChapterDetail" >
+    update novel_chapter_detail
+    set url = #{url,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      wordcount = #{wordcount,jdbcType=INTEGER},
+      chapterid = #{chapterid,jdbcType=INTEGER},
+      chaptertime = #{chaptertime,jdbcType=BIGINT},
+      createtime = #{createtime,jdbcType=BIGINT},
+      content = #{content,jdbcType=VARCHAR},
+      updatetime = #{updatetime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

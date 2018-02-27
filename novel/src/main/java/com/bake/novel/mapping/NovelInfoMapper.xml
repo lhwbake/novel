@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bake.novel.mapper.NovelInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.bake.novel.entity.NovelInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="author" property="author" jdbcType="VARCHAR" />
+    <result column="type" property="type" jdbcType="VARCHAR" />
+    <result column="lastchapter" property="lastchapter" jdbcType="VARCHAR" />
+    <result column="chapterlisturl" property="chapterlisturl" jdbcType="VARCHAR" />
+    <result column="wordcount" property="wordcount" jdbcType="INTEGER" />
+    <result column="chaptercount" property="chaptercount" jdbcType="INTEGER" />
+    <result column="keywords" property="keywords" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="BIGINT" />
+    <result column="updatetime" property="updatetime" jdbcType="BIGINT" />
+    <result column="state" property="state" jdbcType="CHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.bake.novel.entity.NovelInfo" extends="BaseResultMap" >
+    <result column="description" property="description" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, url, name, author, type, lastchapter, chapterlisturl, wordcount, chaptercount, 
+    keywords, createtime, updatetime, state
+  </sql>
+  <sql id="Blob_Column_List" >
+    description
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from novel_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from novel_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bake.novel.entity.NovelInfo" >
+    insert into novel_info (id, url, name, 
+      author, type, lastchapter, 
+      chapterlisturl, wordcount, chaptercount, 
+      keywords, createtime, updatetime, 
+      state, description)
+    values (#{id,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{author,jdbcType=VARCHAR}, #{type,jdbcType=VARCHAR}, #{lastchapter,jdbcType=VARCHAR}, 
+      #{chapterlisturl,jdbcType=VARCHAR}, #{wordcount,jdbcType=INTEGER}, #{chaptercount,jdbcType=INTEGER}, 
+      #{keywords,jdbcType=VARCHAR}, #{createtime,jdbcType=BIGINT}, #{updatetime,jdbcType=BIGINT}, 
+      #{state,jdbcType=CHAR}, #{description,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.bake.novel.entity.NovelInfo" >
+    insert into novel_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="author != null" >
+        author,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="lastchapter != null" >
+        lastchapter,
+      </if>
+      <if test="chapterlisturl != null" >
+        chapterlisturl,
+      </if>
+      <if test="wordcount != null" >
+        wordcount,
+      </if>
+      <if test="chaptercount != null" >
+        chaptercount,
+      </if>
+      <if test="keywords != null" >
+        keywords,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="updatetime != null" >
+        updatetime,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="lastchapter != null" >
+        #{lastchapter,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterlisturl != null" >
+        #{chapterlisturl,jdbcType=VARCHAR},
+      </if>
+      <if test="wordcount != null" >
+        #{wordcount,jdbcType=INTEGER},
+      </if>
+      <if test="chaptercount != null" >
+        #{chaptercount,jdbcType=INTEGER},
+      </if>
+      <if test="keywords != null" >
+        #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="updatetime != null" >
+        #{updatetime,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=CHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bake.novel.entity.NovelInfo" >
+    update novel_info
+    <set >
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="author != null" >
+        author = #{author,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        type = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="lastchapter != null" >
+        lastchapter = #{lastchapter,jdbcType=VARCHAR},
+      </if>
+      <if test="chapterlisturl != null" >
+        chapterlisturl = #{chapterlisturl,jdbcType=VARCHAR},
+      </if>
+      <if test="wordcount != null" >
+        wordcount = #{wordcount,jdbcType=INTEGER},
+      </if>
+      <if test="chaptercount != null" >
+        chaptercount = #{chaptercount,jdbcType=INTEGER},
+      </if>
+      <if test="keywords != null" >
+        keywords = #{keywords,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="updatetime != null" >
+        updatetime = #{updatetime,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=CHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.bake.novel.entity.NovelInfo" >
+    update novel_info
+    set url = #{url,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      lastchapter = #{lastchapter,jdbcType=VARCHAR},
+      chapterlisturl = #{chapterlisturl,jdbcType=VARCHAR},
+      wordcount = #{wordcount,jdbcType=INTEGER},
+      chaptercount = #{chaptercount,jdbcType=INTEGER},
+      keywords = #{keywords,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=BIGINT},
+      updatetime = #{updatetime,jdbcType=BIGINT},
+      state = #{state,jdbcType=CHAR},
+      description = #{description,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bake.novel.entity.NovelInfo" >
+    update novel_info
+    set url = #{url,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      author = #{author,jdbcType=VARCHAR},
+      type = #{type,jdbcType=VARCHAR},
+      lastchapter = #{lastchapter,jdbcType=VARCHAR},
+      chapterlisturl = #{chapterlisturl,jdbcType=VARCHAR},
+      wordcount = #{wordcount,jdbcType=INTEGER},
+      chaptercount = #{chaptercount,jdbcType=INTEGER},
+      keywords = #{keywords,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=BIGINT},
+      updatetime = #{updatetime,jdbcType=BIGINT},
+      state = #{state,jdbcType=CHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <!-- ============================================================================ -->
+  <select id="selectNovelInfoList" resultMap="ResultMapWithBLOBs" parameterType="java.util.Map">
+  	select
+  		<include refid="Base_Column_List" />, <include refid="Blob_Column_List" />
+  	from novel_info
+  	where state = #{state,jdbcType=CHAR} 
+  	<if test="type != null and type != '' and type != 'all'">	
+  		and type in
+  		<foreach collection="categpryNameList" index="index" item="item" open="(" separator="," close=")">
+  			#{item}
+  		</foreach> 	
+  	</if>
+  	
+  </select>
+  
+  <select id="countNovelInfo" resultType="int" parameterType="java.util.Map">
+  	select count(1)
+  	from novel_info 
+  	where state = #{state,jdbcType=CHAR}
+  	<if test="type != null and type != '' and type != 'all'">	
+  		and type in
+  		<foreach collection="categpryNameList" index="index" item="item" open="(" separator="," close=")">
+  			#{item}
+  		</foreach> 	
+  	</if>
+  </select>
+</mapper>

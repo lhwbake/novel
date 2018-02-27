@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bake.novel.mapper.NovelChapterMapper" >
+  <resultMap id="BaseResultMap" type="com.bake.novel.entity.NovelChapter" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="novelid" property="novelid" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="wordcount" property="wordcount" jdbcType="INTEGER" />
+    <result column="chapterid" property="chapterid" jdbcType="INTEGER" />
+    <result column="chaptertime" property="chaptertime" jdbcType="BIGINT" />
+    <result column="createtime" property="createtime" jdbcType="BIGINT" />
+    <result column="state" property="state" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, novelid, url, title, wordcount, chapterid, chaptertime, createtime, state
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from novel_chapter
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from novel_chapter
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.bake.novel.entity.NovelChapter" >
+    insert into novel_chapter (id, novelid, url, 
+      title, wordcount, chapterid, 
+      chaptertime, createtime, state
+      )
+    values (#{id,jdbcType=VARCHAR}, #{novelid,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR}, 
+      #{title,jdbcType=VARCHAR}, #{wordcount,jdbcType=INTEGER}, #{chapterid,jdbcType=INTEGER}, 
+      #{chaptertime,jdbcType=BIGINT}, #{createtime,jdbcType=BIGINT}, #{state,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.bake.novel.entity.NovelChapter" >
+    insert into novel_chapter
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="novelid != null" >
+        novelid,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="wordcount != null" >
+        wordcount,
+      </if>
+      <if test="chapterid != null" >
+        chapterid,
+      </if>
+      <if test="chaptertime != null" >
+        chaptertime,
+      </if>
+      <if test="createtime != null" >
+        createtime,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="novelid != null" >
+        #{novelid,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="wordcount != null" >
+        #{wordcount,jdbcType=INTEGER},
+      </if>
+      <if test="chapterid != null" >
+        #{chapterid,jdbcType=INTEGER},
+      </if>
+      <if test="chaptertime != null" >
+        #{chaptertime,jdbcType=BIGINT},
+      </if>
+      <if test="createtime != null" >
+        #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.bake.novel.entity.NovelChapter" >
+    update novel_chapter
+    <set >
+      <if test="novelid != null" >
+        novelid = #{novelid,jdbcType=VARCHAR},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="wordcount != null" >
+        wordcount = #{wordcount,jdbcType=INTEGER},
+      </if>
+      <if test="chapterid != null" >
+        chapterid = #{chapterid,jdbcType=INTEGER},
+      </if>
+      <if test="chaptertime != null" >
+        chaptertime = #{chaptertime,jdbcType=BIGINT},
+      </if>
+      <if test="createtime != null" >
+        createtime = #{createtime,jdbcType=BIGINT},
+      </if>
+      <if test="state != null" >
+        state = #{state,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.bake.novel.entity.NovelChapter" >
+    update novel_chapter
+    set novelid = #{novelid,jdbcType=VARCHAR},
+      url = #{url,jdbcType=VARCHAR},
+      title = #{title,jdbcType=VARCHAR},
+      wordcount = #{wordcount,jdbcType=INTEGER},
+      chapterid = #{chapterid,jdbcType=INTEGER},
+      chaptertime = #{chaptertime,jdbcType=BIGINT},
+      createtime = #{createtime,jdbcType=BIGINT},
+      state = #{state,jdbcType=CHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- ================================================================================== -->
+  <select id="selectNovelChaptersByNovelId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from novel_chapter
+    where novelid = #{novelid,jdbcType=VARCHAR}
+    order by chapterid desc
+  </select>
+  
+  <select id="selectNextChapterId" resultType="java.lang.String" parameterType="java.util.Map" >
+    select 
+    	id
+    from novel_chapter
+    where novelid = #{novelId,jdbcType=VARCHAR}
+    and chapterid  &gt; #{chapterId,jdbcType=INTEGER}
+    order by chapterid asc
+    limit 0,1
+  </select>
+  
+  <select id="selectLastNovelChaptersByNovelId" resultMap="BaseResultMap" parameterType="java.lang.String" >  
+    SELECT <include refid="Base_Column_List" />
+	FROM novel_chapter
+	WHERE novelid = #{novelid,jdbcType=VARCHAR}
+	AND chapterid = (
+		SELECT
+			max(chapterid)
+		FROM
+			novel_chapter
+		WHERE
+			novelid = #{novelid,jdbcType=VARCHAR}
+	)
+    
+  </select>
+  
+</mapper>

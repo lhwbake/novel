@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>Cat阅读</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- 引入 Bootstrap -->
+
+<link rel="stylesheet"
+	href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
+	integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	crossorigin="anonymous" />
+
+<link rel="stylesheet"
+	href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"
+	integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp"
+	crossorigin="anonymous" />
+
+<script src="https://code.jquery.com/jquery.js"></script>
+<script
+	src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"
+	integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+	crossorigin="anonymous"></script>
+
+<style>
+.pad{
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 20px;
+    padding-left: 0px;
+}
+
+.box {
+    border: 1px solid #d8d8d8;
+    background: #fff;
+}
+
+.cl10 {
+    height: 10px;
+}
+	
+</style>
+</head>
+<body>
+	<nav class="navbar navbar-inverse" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/novel/novel/novelList">Cat阅读</a>
+			</div>
+		</div>
+	</nav>
+	
+	<div class="container">
+		<div class="box">
+			<ul class="nav nav-pills">
+				<li class="active"><a href="/novel/novel/novelList">全部</a></li>
+				<li th:each="category : ${categoryList}"><a
+					th:href="${'javascript:loadNovelList('''+category.id+''')'}">
+						<span th:text="${category.name}">类别</span>
+				</a></li>
+			</ul>
+		</div>
+		<div class="cl10"></div>
+		<div class="panel panel-default">
+			<div class="panel-heading">
+				<h3 class="panel-title">小说列表</h3>
+			</div>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>名称</th>
+						<th>作者</th>
+						<th>字数</th>
+						<th>类型</th>
+						<th>标签</th>
+					</tr>
+				</thead>
+				<tbody id="novelList">
+					<tr th:each="novel : ${pageInfo.list}">
+						<td><a
+							th:href="'/novel/novel/novelInfo/?novelId='+${novel.id}"> <span
+								th:text="${novel.name}">小说</span>
+						</a></td>
+						<td th:text="${novel.author}">佚名</td>
+						<td th:text="${novel.wordcount}">0</td>
+						<td th:text="${novel.type}">都市</td>
+						<td th:text="${novel.keywords}">标签</td>
+					</tr>
+				</tbody>
+			</table>
+
+			<div class="panel-footer">
+				<!-- 处理页数大于10 的情况 -->
+				<div>
+					<ul class="pagination" data-th-if="${pageInfo.pages gt 10}">
+
+						<!-- 上一页 -->
+
+						<li class="page-item"
+							data-th-classappend="*{pageInfo.isFirstPage} ? 'disabled' : ''"><a
+							th:href="'/novel/novel/novelList?page=' + ${pageInfo.prePage} + '&amp;size=' + ${pageInfo.pageSize}"
+							class="page-link" data-th-attr="pageIndex=${pageInfo.pageNum}"
+							aria-label="Previous"> <span aria-hidden="true">«</span>
+						</a></li>
+
+
+
+						<!-- 首页 -->
+
+						<li class="page-item"
+							data-th-classappend="${(pageInfo.pageNum) eq 1} ? 'active' : ''">
+
+							<a
+							th:href="'/novel/novel/novelList?page=1&amp;size=' + ${pageInfo.pageSize}"
+							class="page-link" data-th-attr="pageIndex=1">1 </a>
+						</li>
+
+
+						<!-- 当前页面小于等于4 -->
+
+						<li class="page-item" data-th-if="${pageInfo.pageNum le 7}"
+							data-th-each="i : ${#numbers.sequence(2,8)}"
+							data-th-classappend="${pageInfo.pageNum eq i} ? 'active' : ''">
+							<a class="page-link"
+							th:href="'/novel/novel/novelList?page=' + ${i} + '&amp;size=' + ${pageInfo.pageSize}"
+							data-th-attr="pageIndex=${i}"> <span data-th-text="${i}"></span>
+						</a>
+
+						</li>
+
+						<li class="page-item disabled"
+							data-th-if="${pageInfo.pageNum le 7}"><a
+							href="javascript:void(0);" class="page-link"> <span
+								aria-hidden="true">...</span>
+						</a></li>
+
+						<!-- 最后一页与当前页面之差，小于等于3 -->
+
+						<li class="page-item disabled"
+							data-th-if="${(pageInfo.pages-pageInfo.pageNum) le 6}"><a
+							href="javascript:void(0);" class="page-link"> <span
+								aria-hidden="true">...</span>
+						</a></li>
+
+						<li class="page-item"
+							data-th-if="${(pageInfo.pages-pageInfo.pageNum) le 6}"
+							data-th-each="i : ${#numbers.sequence(pageInfo.pages-7, pageInfo.pages-1)}"
+							data-th-classappend="${(pageInfo.pageNum) eq i} ? 'active' : ''">
+
+							<a
+							th:href="'/novel/novel/novelList?page=' + ${i} + '&amp;size=' + ${pageInfo.pageSize}"
+							class="page-link" data-th-attr="pageIndex=${i}"> <span
+								data-th-text="${i}"></span>
+
+						</a>
+
+						</li>
+
+						<!-- 最后一页与当前页面之差大于6，且  当前页面大于7-->
+						<li class="page-item disabled"
+							data-th-if="${(pageInfo.pageNum gt 7) &amp;&amp; ((pageInfo.pages-pageInfo.pageNum) gt 6)}">
+							<a href="javascript:void(0);" class="page-link"> <span
+								aria-hidden="true">...</span>
+						</a>
+						</li>
+
+						<li class="page-item"
+							data-th-if="${(pageInfo.pageNum gt 7) &amp;&amp; ((pageInfo.pages-pageInfo.pageNum) gt 6)}">
+							<a
+							th:href="'/novel/novel/novelList?page=' + ${pageInfo.prePage-1} + '&amp;size=' + ${pageInfo.pageSize}"
+							class="page-link" data-th-attr="pageIndex=${pageInfo.prePage-1}">
+								<span th:text="${pageInfo.prePage-1}"></span>
+						</a>
+						</li>
+
+						<li class="page-item"
+							data-th-if="${(pageInfo.pageNum gt 7) &amp;&amp; ((pageInfo.pages-pageInfo.pageNum) gt 6)}">
+							<a
+							th:href="'/novel/novel/novelList?page=' + ${pageInfo.prePage} + '&amp;size=' + ${pageInfo.pageSize}"
+							class="page-link" data-th-attr="pageIndex=${pageInfo.prePage}">
+								<span th:text="${pageInfo.prePage}"></span>
+						</a>
+						</li>
+
+						<li class="page-item active"
+							data-th-if="${(pageInfo.pageNum gt 7) &amp;&amp; ((pageInfo.pages-pageInfo.pageNum) gt 6)}">
+							<a
+							th:href="'/novel/novel/novelList?page=' + ${pageInfo.pageNum} + '&amp;size=' + ${pageInfo.pageSize}"
+							class="page-link" data-th-attr="pageIndex=${pageInfo.pageNum}">
+								<span th:text="${pageInfo.pageNum}"></span>
+						</a>
+						</li>
+
+						<li class="page-item"
+							data-th-if="${(pageInfo.pageNum gt 7) &amp;&amp; ((pageInfo.pages-pageInfo.pageNum) gt 6)}">
+							<a
+							th:href="'/novel/novel/novelList?page=' + ${pageInfo.nextPage} + '&amp;size=' + ${pageInfo.pageSize}"
+							class="page-link" data-th-attr="pageIndex=${pageInfo.nextPage}">
+								<span th:text="${pageInfo.nextPage}"></span>
+						</a>
+						</li>
+
+						<li class="page-item"
+							data-th-if="${(pageInfo.pageNum gt 7) &amp;&amp; ((pageInfo.pages-pageInfo.pageNum) gt 6)}">
+							<a
+							th:href="'/novel/novel/novelList?page=' + ${pageInfo.nextPage+1} + '&amp;size=' + ${pageInfo.pageSize}"
+							class="page-link" data-th-attr="pageIndex=${pageInfo.nextPage+1}">
+								<span th:text="${pageInfo.nextPage+1}"></span>
+						</a>
+						</li>
+
+						<li class="page-item"
+							data-th-if="${(pageInfo.pageNum gt 7) &amp;&amp; ((pageInfo.pages-pageInfo.pageNum) gt 6)}">
+							<a
+							th:href="'/novel/novel/novelList?page=' + ${pageInfo.nextPage+2} + '&amp;size=' + ${pageInfo.pageSize}"
+							class="page-link" data-th-attr="pageIndex=${pageInfo.nextPage+2}">
+								<span th:text="${pageInfo.nextPage+2}"></span>
+						</a>
+						</li>
+
+						<li class="page-item disabled"
+							data-th-if="${(pageInfo.pageNum gt 7) &amp;&amp; ((pageInfo.pages-pageInfo.pageNum) gt 6)}">
+							<a href="javascript:void(0);" class="page-link"> <span
+								aria-hidden="true">...</span>
+						</a>
+
+						</li>
+						<!-- 最后一页 -->
+						<li class="page-item"
+							data-th-classappend="${(pageInfo.pageNum) eq pageInfo.pages} ? 'active' : ''">
+							<a
+							th:href="'/novel/novel/novelList?page=' + ${pageInfo.pages} + '&amp;size=' + ${pageInfo.pageSize}"
+							class="page-link" data-th-attr="pageIndex=${pageInfo.pages}">
+								<span th:text="${pageInfo.pages}"></span>
+						</a>
+						</li>
+
+						<!-- 下一页 -->
+
+						<li class="page-item"
+							data-th-classappend="*{pageInfo.isLastPage} ? 'disabled' : ''">
+							<a
+							th:href="'/novel/novel/novelList?page=' + ${pageInfo.nextPage} + '&amp;size=' + ${pageInfo.pageSize}"
+							class="page-link" data-th-attr="pageIndex=${pageInfo.nextPage}"
+							aria-label="Next"> <span aria-hidden="true">»</span>
+						</a>
+						</li>
+					</ul>
+				</div>
+				<div class="display: inline-block;">
+					<span th:text="${pageInfo.total}"></span><span>条</span>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script th:inline="javascript">
+		$(".nav-pills").find("li").click(function(){
+			$(this).addClass("active").siblings().removeClass("active");	
+		})
+		/*<![CDATA[*/
+		function loadNovelList(categoryId) {
+			$.post("/novel/novel/novelListByCategory",{"categoryId":categoryId},function(result){
+				var novelList = result.list;
+				var html = '';
+				for(var i=0;i<novelList.length;i++) {
+				
+					var novel = novelList[i];
+					html += '<tr>' +
+								'<td><a href="/novel/novel/novelInfo/?novelId=' + novel.id + '">' +
+										'<span>' + novel.name + '</span>' +
+									'</a></td>' +
+								'<td>'+novel.author+'</td>' +
+								'<td>'+novel.wordcount+'</td>' +
+								'<td>'+novel.type+'</td>' +
+								'<td>'+novel.keywords+'</td>' +
+							'</tr>';
+				}
+				
+				$("#novelList").html(html);
+			})
+		}
+		
+		/* ]]> */
+	
+	</script>
+</body>
+</html>

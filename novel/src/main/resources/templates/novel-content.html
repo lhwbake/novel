@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+<title>小说详情</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="stylesheet"
+	href="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/css/bootstrap.min.css" />
+<script
+	src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script
+	src="http://cdn.static.runoob.com/libs/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	
+	<style type="text/css">
+	
+	p{
+		color: #303030;
+    	font-size: 16px;
+    	line-height: 2em;
+   	 	text-indent: 2em;
+    	padding: .5em 6em;
+    	word-wrap: break-word;
+	
+	}
+	
+	.cl15 {
+    	height: 15px;
+	}
+	
+	.textbox {
+    	background: #EDF3EF;    
+	}
+		    	
+	</style>
+	
+	
+</head>
+<body>
+
+	<nav class="navbar navbar-inverse" role="navigation">
+		<div class="container-fluid">
+			<div class="navbar-header">
+				<a class="navbar-brand" href="/novel/novel/novelList">Cat阅读</a>
+				<span class="navbar-brand glyphicon glyphicon-chevron-right"></span>
+				<a class="navbar-brand" th:href="'/novel/novel/novelInfo?novelId='+${chapterDetailVo.novelId}">
+					<span class="small" th:text="${chapterDetailVo.novelName}">小说名称</span>
+				</a>
+			</div>
+		</div>
+	</nav>
+	
+
+	<div class="container textbox">
+		<div class="cl15"></div>
+		<div class="row">
+			<div class="col-sm-6 small text-left">
+				<h4>
+				<span class="text-left">正文</span>
+			</h4>
+			</div>
+		
+			<div class="col-sm-6 small text-right">
+				<h4>
+				<a class="text-right" th:href="${'/novel/novel/chapterContent/?novelChapterId=' +chapterDetailVo.nextChapterId}">
+					<span>下一章</span>
+				</a>
+			</h4>
+			</div>
+		</div>
+		
+				
+		<div class="text-center page-header">
+			<div>
+				<h1 th:text="${chapterDetailVo.title}">章节名</h1>
+			</div>
+			<div class="lead">
+				【<span th:text="${chapterDetailVo.novelName}">0</span>】
+				&nbsp;&nbsp;&nbsp;&nbsp;
+				<span>作者</span>:<span th:text="${chapterDetailVo.author}">作者</span>
+			</div>
+			<div class="small">
+				<span>更新时间</span>:<span th:text="${#dates.format(chapterDetailVo.chaptertime, 'dd/MM/yyyy')}">更新时间</span>	
+				&nbsp;&nbsp;	
+				<span>字数</span>:<span th:text="${chapterDetailVo.wordcount}">0</span>字
+			</div>
+		</div>
+		
+		<div class="lead" th:utext="${chapterDetailVo.content}">内容</div>
+			
+	</div>
+
+</body>
+</html>
